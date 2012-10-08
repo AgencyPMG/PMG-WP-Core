@@ -60,14 +60,3 @@ require_once(dirname(__FILE__) . '/inc/api.php');
 Cleaner::init();
 Headers::init();
 Uploads::init();
-
-pmgcore('marklogic')->setting('asdf', 'general')->add_section(
-    'asdf',
-    __('Yep')
-);
-
-pmgcore('marklogic')->setting('asdf', 'general')->add_field('some_field', array(
-    'label'     => 'simple Field',
-    'section'   => 'asdf',
-));
-
