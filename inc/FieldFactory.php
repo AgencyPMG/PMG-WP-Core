@@ -36,6 +36,16 @@ abstract class FieldFactory
      */
     protected $fields = array();
 
+    /**
+     * Container for the field sections.
+     *
+     * @since   1.0
+     * @access  protected
+     * @var     array
+     */
+    protected $sections = array();
+
+
     public function __construct($opt)
     {
         $this->opt = $opt;
@@ -90,6 +100,25 @@ abstract class FieldFactory
         $args['key'] = $key;
 
         $this->fields[$key] = $args;
+    }
+
+    /**
+     * Add a settings section. If $help is given, it will be put below the
+     * section title.
+     *
+     * @since   1.0
+     * @access  public
+     * @param   string $key The section key.
+     * @param   string $title The title of the section
+     * @param   string $help (optional) Help text to display.
+     * @return  void
+     */
+    public function add_section($key, $title, $help='')
+    {
+        $this->sections[$key] = array(
+            'title' => $title,
+            'help'  => $help,
+        );
     }
 
     /**

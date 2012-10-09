@@ -24,15 +24,6 @@ class SettingsFields extends FieldFactory
      */
     protected $page;
 
-    /**
-     * Container for the settings sections.
-     *
-     * @since   1.0
-     * @access  protected
-     * @var     array
-     */
-    protected $sections = array();
-
     public function __construct($opt, $page=null)
     {
         parent::__construct($opt);
@@ -43,24 +34,14 @@ class SettingsFields extends FieldFactory
     /********** Public API **********/
 
     /**
-     * Add a settings section. If $help is given, it will be put below the
-     * section title.
+     * Get the value for $key from $this->opt in the option table.
      *
      * @since   1.0
      * @access  public
-     * @param   string $key The section key.
-     * @param   string $title The title of the section
-     * @param   string $help (optional) Help text to display.
-     * @return  void
+     * @param   string $key The option key to fetch
+     * @param   mixed $default (optional) The default value if the option isn't set
+     * @return  mixed Whatever happens to be in the option value.
      */
-    public function add_section($key, $title, $help='')
-    {
-        $this->sections[$key] = array(
-            'title' => $title,
-            'help'  => $help,
-        );
-    }
-
     public function get($key, $default='')
     {
         $opts = get_option($this->opt, array());
