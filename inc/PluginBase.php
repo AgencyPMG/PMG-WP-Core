@@ -48,7 +48,7 @@ abstract class PluginBase
      */
     public static function init()
     {
-        add_action('plugins_loaded', array(static::instance(), '_setup'), 2);
+        add_action('plugins_loaded', array(static::instance(), '_setup'), 9);
     }
 
     /**
