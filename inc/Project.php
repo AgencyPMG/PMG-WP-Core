@@ -25,7 +25,7 @@ class Project extends DI
         $this->prefix = $meta_prefix;
         parent::__construct($vals);
 
-        $this->settings_factory_class = __NAMESPACE__ . '\\SettingsFactory';
+        $this->settings_factory_class = __NAMESPACE__ . '\\SettingsFields';
 
         $this->meta_class = __NAMESPACE__ . '\\Meta';
 

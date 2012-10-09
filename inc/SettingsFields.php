@@ -13,7 +13,7 @@ namespace PMG\Core;
 
 !defined('ABSPATH') && exit;
 
-class SettingsFactory extends FieldFactory
+class SettingsFields extends FieldFactory
 {
     /**
      * The page on which these fields belong.

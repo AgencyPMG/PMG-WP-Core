@@ -13,7 +13,7 @@ namespace PMG\Core;
 
 !defined('ABSPATH') && exit;
 
-class MetaFactory extends FieldFactory
+class MetaBox extends FieldFactory
 {
     /**
      * Render the fields.  For use outside the settings api.
