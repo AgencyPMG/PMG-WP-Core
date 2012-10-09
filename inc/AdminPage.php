@@ -33,13 +33,27 @@ abstract class AdminPage extends PluginBase
 
     public function admin_menu()
     {
-        $p = add_menu_page(
-            $this->title,
-            $this->menu_name,
-            $this->cap,
-            $this->slug,
-            array($this, 'page_cb')
-        );
+        if(is_null($this->parent))
+        {
+            $p = add_menu_page(
+                $this->title,
+                $this->menu_name,
+                $this->cap,
+                $this->slug,
+                array($this, 'page_cb')
+            );
+        }
+        else
+        {
+            $p = add_submenu_page(
+                $this->parent,
+                $this->title,
+                $this->menu_name,
+                $this->cap,
+                $this->slug,
+                array($this, 'page_cb')
+            );
+        }
 
         if(method_exists($this, 'styles'))
             add_action("admin_print_styles-{$p}", array($this, 'styles'));
