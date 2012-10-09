@@ -28,7 +28,7 @@ class SettingsFields extends FieldFactory
     {
         parent::__construct($opt);
         $this->page = is_null($page) ? $opt : $page;
-        add_action('admin_init', array($this, 'register'));
+        add_action('admin_init', array($this, 'register'), 11);
     }
 
     /********** Public API **********/
@@ -46,6 +46,18 @@ class SettingsFields extends FieldFactory
     {
         $opts = get_option($this->opt, array());
         return isset($opts[$key]) ? $opts[$key] : $default;
+    }
+
+    /**
+     * Get the options page.
+     *
+     * @since   1.0
+     * @access  public
+     * @return  string
+     */
+    public function get_page()
+    {
+        return $this->page;
     }
 
     /********** Hooks **********/
@@ -102,5 +114,17 @@ class SettingsFields extends FieldFactory
             echo '<p class="description">',
                 esc_html($this->sections[$args['id']]['help']), '</p>';
         }
+    }
+
+    public function validate($dirty)
+    {
+        add_settings_error(
+            $this->page, 
+            $this->page . $this->opt . 'updated',
+            __('Settings Saved', 'pmgcore'),
+            'updated'
+        );
+
+        return parent::validate($dirty);
     }
 } // end SettingsFactory
