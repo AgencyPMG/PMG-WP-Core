@@ -9,11 +9,11 @@
  * @package     PMGCore
  */
 
-namespace PMG\Core;
+namespace PMG\Core\Fields;
 
 !defined('ABSPATH') && exit;
 
-class SettingsFields extends FieldFactory
+class Settings extends FieldBase implements FieldInterface
 {
     /**
      * The page on which these fields belong.
@@ -48,16 +48,18 @@ class SettingsFields extends FieldFactory
         return isset($opts[$key]) ? $opts[$key] : $default;
     }
 
-    /**
-     * Get the options page.
-     *
-     * @since   1.0
-     * @access  public
-     * @return  string
-     */
-    public function get_page()
+    public function render()
     {
-        return $this->page;
+        settings_errors($this->page);
+        ?>
+        <form method="post" action="<?php echo admin_url('options.php'); ?>">
+            <?php
+            settings_fields($this->page);
+            do_settings_sections($this->page);
+            submit_button(__('Save Settings', 'pmgcore'));
+            ?>
+        </form>
+        <?php
     }
 
     /********** Hooks **********/

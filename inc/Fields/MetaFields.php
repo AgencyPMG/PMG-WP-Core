@@ -1,6 +1,7 @@
 <?php
 /**
- * MetaBox fields in a nice package.
+ * Any fields that will use something that implements a MetaInterface
+ * object to populate field data.  Might be usermeta or otherwise.
  *
  * @since       1.0
  * @author      Christopher Davis <chris@pmg.co>
@@ -9,11 +10,11 @@
  * @package     PMGCore
  */
 
-namespace PMG\Core;
+namespace PMG\Core\Fields;
 
 !defined('ABSPATH') && exit;
 
-class MetaBox extends FieldFactory
+class MetaFields extends FieldBase
 {
     /**
      * Render the fields.  For use outside the settings api.
@@ -22,7 +23,7 @@ class MetaBox extends FieldFactory
      * @access  public
      * @return  null
      */
-    public function render($id, Meta $m)
+    public function render($id)
     {
         if($this->type)
             $this->setup_values($id, $m);

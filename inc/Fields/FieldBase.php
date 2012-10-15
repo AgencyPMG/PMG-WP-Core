@@ -10,11 +10,11 @@
  * @package     PMGCore
  */
 
-namespace PMG\Core;
+namespace PMG\Core\Fields;
 
 !defined('ABSPATH') && exit;
 
-abstract class FieldFactory
+abstract class FieldBase
 {
     const CHECK_ON = 'on';
     const CHECK_OFF = 'off';
