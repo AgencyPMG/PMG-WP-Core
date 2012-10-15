@@ -9,11 +9,11 @@
  * @package     PMGCore
  */
 
-namespace PMG\Core;
+namespace PMG\Core\Meta
 
 !defined('ABSPATH') && exit;
 
-class Meta
+class Meta implements MetaInterface
 {
     private $prefix;
 

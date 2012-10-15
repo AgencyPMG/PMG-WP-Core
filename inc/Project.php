@@ -31,7 +31,7 @@ class Project extends DI
 
         $this->settings_factory_class = __NAMESPACE__ . '\\Fields\\Settings';
         $this->admin_page_class = __NAMESPACE__ . '\\AdminPage';
-        $this->meta_class = __NAMESPACE__ . '\\Meta';
+        $this->meta_class = __NAMESPACE__ . '\\Meta\\Meta';
 
         $this->postmeta = $this->share(function($c) {
             $cls = $c->meta_class;
