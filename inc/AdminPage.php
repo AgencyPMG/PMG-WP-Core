@@ -13,23 +13,39 @@ namespace PMG\Core;
 
 !defined('ABSPATH') && exit;
 
-abstract class AdminPage extends PluginBase
+use PMG\Core\Fields\FieldInterface;
+
+class AdminPage
 {
-    protected $parent = null;
+    private $proj;
 
-    protected $icon = 'tools';
+    private $parent = null;
 
-    protected $slug;
+    private $icon = 'tools';
 
-    protected $title;
+    private $slug;
 
-    protected $menu_name;
+    private $title;
 
-    protected $opt;
+    private $menu_name;
 
-    protected $cap = 'manage_options';
+    private $cap = 'manage_options';
 
-    abstract public function admin_init();
+    private $fields;
+
+    public function __construct($proj, FieldInterface $s, $opts=array())
+    {
+        $this->proj = $proj;
+
+        $this->slug = !empty($opts['slug']) ? $opts['slug'] : $proj;
+        $this->title = !empty($opts['title']) ? $opts['title'] : __('Options', 'pmgcore');
+        $this->menu_name = !empty($opts['menu_name']) ? $opts['menu_name'] : __('Options', 'pmgcore');
+        $this->parent = !empty($opts['parent']) ? $opts['parent'] : null;
+        $this->icon = !empty($opts['icon']) ? $opts['icon'] : 'tools';
+        $this->cap = !empty($opts['cap']) ? $opts['cap'] : 'manage_options';
+
+        $this->fields = $s;
+    }
 
     public function admin_menu()
     {
@@ -71,14 +87,7 @@ abstract class AdminPage extends PluginBase
         <div class="wrap">
             <?php screen_icon($this->icon); ?>
             <h2><?php echo esc_html($this->title); ?></h2>
-            <?php settings_errors($this->opt); ?>
-            <form method="post" action="<?php echo admin_url('options.php'); ?>">
-                <?php
-                settings_fields($this->opt);
-                do_settings_sections($this->opt);
-                submit_button(__('Save Settings', 'pmgcore'));
-                ?>
-            </form>
+            <?php $this->fields->render(); ?>
         </div>
         <?php
     }
