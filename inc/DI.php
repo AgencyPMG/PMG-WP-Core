@@ -31,6 +31,16 @@ class DI
         $this->vals[$key] = $val;
     }
 
+    public function __isset($key)
+    {
+        return isset($this->vals[$key]);
+    }
+
+    public function __unset($key)
+    {
+        unset($this->vals[$key]);
+    }
+
     public function __get($key)
     {
         if(empty($this->vals[$key]))
