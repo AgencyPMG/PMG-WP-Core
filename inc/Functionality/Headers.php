@@ -9,12 +9,19 @@
  * @package     PMGCore
  */
 
-namespace PMG\Core;
+namespace PMG\Core\Functionality;
 
 !defined('ABSPATH') && exit;
 
+use PMG\Core\PluginBase;
+
 class Headers extends PluginBase
 {
+    public function _setup()
+    {
+        add_action('template_redirect', array($this, 'template_redirect'));
+        add_filter('wp_headers', array($this, 'wp_headers'));
+    }
 
     /**
      * Remove wp_shortlink_header from `template_redirect`

@@ -9,18 +9,26 @@
  * @package     PMGCore
  */
 
-namespace PMG\Core;
+namespace PMG\Core\Functionality;
 
 !defined('ABSPATH') && exit;
 
+use PMG\Core\PluginBase;
+
 class Uploads extends PluginBase
 {
-    public function pre_option_upload_path($p)
+    public function _setup()
+    {
+        add_filter('pre_option_upload_path', array($this, 'upload_path'));
+        add_filter('pre_option_upload_url_path', array($this, 'upload_url'));
+    }
+
+    public function upload_path($p)
     {
         return trailingslashit($_SERVER['DOCUMENT_ROOT']) . 'uploads';
     }
 
-    public function pre_option_upload_url_path($u)
+    public function upload_url($u)
     {
         return preg_replace('#^https?://#ui', '//', WP_HOME . '/uploads');
     }

@@ -48,7 +48,7 @@ abstract class PluginBase
      */
     public static function init()
     {
-        add_action('plugins_loaded', array(static::instance(), '_setup'), 9);
+        add_action('plugins_loaded', array(static::instance(), '_setup'));
     }
 
     /**
@@ -71,29 +71,6 @@ abstract class PluginBase
      */
     public function _setup()
     {
-        $r = new ReflectionClass($this);
-
-        foreach($r->getMethods(ReflectionMethod::IS_PUBLIC) as $m)
-        {
-
-            if($m->isConstructor() || $m->isStatic() || __FUNCTION__ == $m->name)
-                continue;
-
-            $doc = $m->getDocComment();
-
-            $hook = preg_match('/@hook\s(.*?)\s/ui', $doc, $match) ? $match[1] : $m->name;
-
-            if('none' == $hook)
-                continue;
-
-            $prio = preg_match('/@priority\s(.*?)\s/ui', $doc, $match) ? intval($match[1]) : 10;
-
-            add_filter(
-                $hook,
-                array($this, $m->name),
-                $prio,
-                $m->getNumberofParameters()
-            );
-        }
+        // empty
     }
 }

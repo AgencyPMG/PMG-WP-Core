@@ -57,6 +57,6 @@ function loader($cls)
 require_once(dirname(__FILE__) . '/inc/api.php');
 
 // A tiny bit of functionality
-Cleaner::init();
-Headers::init();
-Uploads::init();
+Functionality\Cleaner::init();
+Functionality\Headers::init();
+Functionality\Uploads::init();

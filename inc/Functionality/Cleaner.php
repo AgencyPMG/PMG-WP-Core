@@ -9,12 +9,23 @@
  * @package     PMGCore
  */
 
-namespace PMG\Core;
+namespace PMG\Core\Functionality;
 
 !defined('ABSPATH') && exit;
 
+use PMG\Core\PluginBase;
+
 class Cleaner extends PluginBase
 {
+    public function _setup()
+    {
+        add_action('plugins_loaded', array($this, 'plugins_loaded'), 10);
+        add_action('wp_dashboard_setup', array($this, 'dashboard'));
+        add_action('comment_moderation', array($this, 'comment_moderation'));
+        add_action('admin_menu', array($this, 'admin_menu'));
+        add_filter('pre_term_description', array($this, 'term_description'));
+    }
+
     /**
      * Hooked into `init`. Sets some options programmatically and removes
      * other actions.
@@ -47,7 +58,7 @@ class Cleaner extends PluginBase
      * @uses        remove_meta_box
      * @return      void
      */
-    public function wp_dashboard_setup()
+    public function dashboard()
     {
         /**
          * Removes the "Right Now" widget that tells you post/comment counts
@@ -142,7 +153,7 @@ class Cleaner extends PluginBase
      * @uses    wp_filter_kses
      * @return  string
      */
-    public function pre_term_description($content)
+    public function term_description($content)
     {
         return current_user_can('unfiltered_html') ?
             $content : wp_filter_kses($content);
