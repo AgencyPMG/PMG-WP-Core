@@ -22,4 +22,6 @@ interface FieldInterface
     public function add_section($key, $args);
 
     public function render();
+
+    public function validate($dirty);
 }
