@@ -22,7 +22,11 @@ class Project extends DI
 
     private $settings = array();
 
+    private $mb_fields = array();
+
     private $admin_pages = array();
+
+    private $meta_boxes = array();
 
     public function __construct($meta_prefix, $vals=array())
     {
@@ -30,8 +34,12 @@ class Project extends DI
         parent::__construct($vals);
 
         $this->settings_factory_class = __NAMESPACE__ . '\\Fields\\Settings';
+
         $this->admin_page_class = __NAMESPACE__ . '\\AdminPage';
+
         $this->meta_class = __NAMESPACE__ . '\\Meta\\Meta';
+        $this->meta_box_class = __NAMESPACE__ . '\\MetaBox';
+        $this->mb_fields_class = __NAMESPACE__ . '\\Fields\\MetaFields';
 
         $this->postmeta = $this->share(function($c) {
             $cls = $c->meta_class;
@@ -65,6 +73,17 @@ class Project extends DI
         return $this->settings[$name];
     }
 
+    public function mb_fields($name)
+    {
+        if(empty($this->mb_fields[$name]))
+        {
+            $cls = $this->mb_fields_class;
+            $this->mb_fields[$name] = new $cls("{$this->prefix}_{$name}");
+        }
+
+        return $this->mb_fields[$name];
+    }
+
     public function create_page($key, FieldInterface $s, $opts=array())
     {
         if(!empty($this->admin_pages[$key]))
@@ -74,11 +93,18 @@ class Project extends DI
 
         $this->admin_pages[$key] = new $cls($this->get_prefix(), $s, $opts);
 
-        add_action(
-            'admin_menu',
-            array($this->admin_pages[$key], 'admin_menu'),
-            20
-        );
+        return true;
+    }
+
+    public  function create_box($key, FieldInterface $f, $opts=array(), $types=array())
+    {
+        if(!empty($this->meta_boxes[$key]))
+            return false;
+
+        $cls = $this->meta_box_class;
+
+        $this->meta_boxes[$key] = new $cls(
+            $this->get_prefix(), $f, $this->postmeta, $opts, $types);
 
         return true;
     }

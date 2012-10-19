@@ -93,7 +93,7 @@ abstract class FieldBase
             'value'     => '', // The value of the field
             'cleaners'  => array('esc_attr'), // Used in the `save` function
             'section'   => 'default', // the setting section.
-            'page'      => $this->page, // the settings page
+            'page'      => isset($this->page) ? $this->page : '', // the settings page
             'label'     => '',
         ));
 
@@ -113,11 +113,16 @@ abstract class FieldBase
      * @param   string $help (optional) Help text to display.
      * @return  void
      */
-    public function add_section($key, $title, $help='')
+    public function add_section($key, $args)
     {
+        $args = wp_parse_args($args, array(
+            'title'     => '',
+            'help'      => '',
+        ));
+
         $this->sections[$key] = array(
-            'title' => $title,
-            'help'  => $help,
+            'title' => $args['title'],
+            'help'  => $args['help'],
         );
     }
 
@@ -165,6 +170,11 @@ abstract class FieldBase
     public function get_opt()
     {
         return $this->opt;
+    }
+
+    public function get_fields()
+    {
+        return $this->fields;
     }
 
     /********** Field Callbakcs **********/

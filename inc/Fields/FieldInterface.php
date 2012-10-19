@@ -24,4 +24,8 @@ interface FieldInterface
     public function render();
 
     public function validate($dirty);
+
+    public function get_opt();
+
+    public function get_fields();
 }

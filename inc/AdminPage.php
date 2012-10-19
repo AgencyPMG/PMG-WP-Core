@@ -45,6 +45,8 @@ class AdminPage
         $this->cap = !empty($opts['cap']) ? $opts['cap'] : 'manage_options';
 
         $this->fields = $s;
+
+        add_action('admin_menu', array($this, 'admin_menu'), 20);
     }
 
     public function admin_menu()
@@ -78,9 +80,6 @@ class AdminPage
             add_action("admin_print_scripts-{$p}", array($this, 'scripts'));
     }
 
-    /**
-     * @hook none
-     */
     public function page_cb()
     {
         ?>

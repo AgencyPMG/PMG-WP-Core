@@ -9,7 +9,7 @@
  * @package     PMGCore
  */
 
-namespace PMG\Core\Meta
+namespace PMG\Core\Meta;
 
 !defined('ABSPATH') && exit;
 
