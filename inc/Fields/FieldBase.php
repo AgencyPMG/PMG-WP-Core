@@ -151,6 +151,17 @@ abstract class FieldBase
                     $clean[$key] = current_user_can('unfiltered_html') ?
                         $dirty[$key] : wp_filter_post_kses($dirty[$key]);
                 }
+                elseif('multiselect' == $field['type'])
+                {
+                    $clean[$key] = array();
+                    foreach((array)$dirty[$key] as $val)
+                    {
+                        foreach($field['cleaners'] as $cb)
+                            $val = call_user_func($cb, $val);
+
+                        $clean[$key][] = $val;
+                    }
+                }
                 else
                 {
                     $val = $dirty[$key];
