@@ -2,8 +2,6 @@
 /**
  * MetaFields with a different render implementation.
  *
- * @todo        Deal with fields that don't have any sections.
- *
  * @since       1.0
  * @author      Christopher Davis <chris@pmg.co>
  * @license     GPLv2
@@ -40,57 +38,67 @@ class MetaBoxFields extends MetaFields implements FieldInterface
 
         $this->setup_values($id, $m);
 
-        echo '<ul class="hide-if-no-js pmgcore-tab-nav pmgcore-fix">';
-        foreach($this->sections as $s => $section)
+        if(!$this->sections)
         {
-            printf(
-                '<li><a href="#" data-id="%s" data-group="%s">%s</a></li>',
-                esc_attr($this->gen_id($s)),
-                esc_attr($this->opt),
-                esc_html($section['title'])
-            );
+            $this->render_fields($this->fields);
         }
-        echo '</ul>';
-
-        foreach($this->sections as $s => $section)
+        else
         {
-            $fields = wp_list_filter($this->fields, array('section' => $s));
-
-            echo '<div id="' . $this->gen_id($s) . '" class="pmgcore-tab ' . esc_attr($this->opt) . '">';
-
-            echo '<table class="form-table">';
-            foreach($fields as $key => $field)
+            echo '<ul class="hide-if-no-js pmgcore-tab-nav pmgcore-fix">';
+            foreach($this->sections as $s => $section)
             {
-                echo '<tr>';
-
-                if('editor' == $field['type'])
-                {
-                    echo '<td colspan="2">';
-
-                    echo '<h5>';
-                    $this->label($this->gen_name($key), $field['label']);
-                    echo '</h5>';
-
-                    $this->cb($field);
-
-                    echo '</td>';
-                }
-                else
-                {
-                    echo '<th scope="row">';
-                    $this->label($this->gen_name($key), $field['label']);
-                    echo '</th>';
-
-                    echo '<td>';
-                    $this->cb($field);
-                    echo '</td>';
-                }
-
-                echo '</tr>';
+                printf(
+                    '<li><a href="#" data-id="%s" data-group="%s">%s</a></li>',
+                    esc_attr($this->gen_id($s)),
+                    esc_attr($this->opt),
+                    esc_html($section['title'])
+                );
             }
-            echo '</table>';
+            echo '</ul>';
 
-            echo '</div>';
+            foreach($this->sections as $s => $section)
+            {
+                $fields = wp_list_filter($this->fields, array('section' => $s));
+
+                echo '<div id="' . $this->gen_id($s) . '" class="pmgcore-tab ' . esc_attr($this->opt) . '">';
+                $this->render_fields($fields);
+                echo '</div>';
+            }
         }
+    }
+
+    private function render_fields(&$fields)
+    {
+        echo '<table class="form-table">';
+        foreach($fields as $key => $field)
+        {
+            echo '<tr>';
+
+            if('editor' == $field['type'])
+            {
+                echo '<td colspan="2">';
+
+                echo '<h5>';
+                $this->label($this->gen_name($key), $field['label']);
+                echo '</h5>';
+
+                $this->cb($field);
+
+                echo '</td>';
+            }
+            else
+            {
+                echo '<th scope="row">';
+                $this->label($this->gen_name($key), $field['label']);
+                echo '</th>';
+
+                echo '<td>';
+                $this->cb($field);
+                echo '</td>';
+            }
+
+            echo '</tr>';
+        }
+        echo '</table>';
     }
 } // end MetaFields
