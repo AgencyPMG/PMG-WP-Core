@@ -45,7 +45,7 @@ class MetaBoxFields extends MetaFields implements FieldInterface
 
         $this->setup_values($id, $m);
 
-        echo '<ul class="pmgcore-tab-nav">';
+        echo '<ul class="hide-if-no-js pmgcore-tab-nav">';
         foreach($this->sections as $s => $section)
         {
             printf(
