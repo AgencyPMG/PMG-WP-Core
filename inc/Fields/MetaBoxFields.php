@@ -2,6 +2,8 @@
 /**
  * MetaFields with a different render implementation.
  *
+ * @todo        Deal with fields that don't have any sections.
+ *
  * @since       1.0
  * @author      Christopher Davis <chris@pmg.co>
  * @license     GPLv2
@@ -30,13 +32,6 @@ class MetaBoxFields extends MetaFields implements FieldInterface
         {
             $id = func_get_arg(0);
             $m = func_get_arg(1);
-
-            if(!is_subclass_of($m, 'PMG\\Core\\Meta\\MetaInterface'))
-            {
-                trigger_error(
-                    __('Invalid meta interface', 'pmgcore'), E_USER_WARNING);
-                return;
-            }
         }
         else
         {
@@ -45,7 +40,7 @@ class MetaBoxFields extends MetaFields implements FieldInterface
 
         $this->setup_values($id, $m);
 
-        echo '<ul class="hide-if-no-js pmgcore-tab-nav">';
+        echo '<ul class="hide-if-no-js pmgcore-tab-nav pmgcore-fix">';
         foreach($this->sections as $s => $section)
         {
             printf(
@@ -61,7 +56,7 @@ class MetaBoxFields extends MetaFields implements FieldInterface
         {
             $fields = wp_list_filter($this->fields, array('section' => $s));
 
-            echo '<div id="' . $this->gen_id($s) . '" class="pmg-core-tab ' . esc_attr($this->opt) . '">';
+            echo '<div id="' . $this->gen_id($s) . '" class="pmgcore-tab ' . esc_attr($this->opt) . '">';
 
             echo '<table class="form-table">';
             foreach($fields as $key => $field)

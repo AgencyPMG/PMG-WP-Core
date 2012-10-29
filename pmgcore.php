@@ -29,6 +29,8 @@ namespace PMG\Core;
 
 !defined('ABSPATH') && exit;
 
+define('PMGCORE_URL', plugins_url('/', __FILE__));
+
 spl_autoload_register(__NAMESPACE__ . '\\loader');
 /**
  * PMG Core autoloader. Looks for classes in this namespace and loads them.
@@ -60,3 +62,4 @@ require_once(dirname(__FILE__) . '/inc/api.php');
 Functionality\Cleaner::init();
 Functionality\Headers::init();
 Functionality\Uploads::init();
+Functionality\Enqueue::init();
