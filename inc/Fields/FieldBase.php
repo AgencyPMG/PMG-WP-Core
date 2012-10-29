@@ -213,8 +213,8 @@ abstract class FieldBase
             '<textarea id="%1$s" name="%1$s" class="%2$s" %3$s>%4$s</textarea>',
             esc_attr($this->gen_name($key)),
             esc_attr($cls),
-            esc_textarea($value),
-            isset($args['rows']) ? 'rows="' . absint($args['rows']) . '"' : ''
+            isset($args['rows']) ? 'rows="' . absint($args['rows']) . '"' : '',
+            !empty($args['raw']) ? $value : esc_textarea($value)
         );
     }
 
