@@ -95,7 +95,7 @@ class MetaFields extends FieldBase implements FieldInterface
      * @access  private
      * @return  null
      */
-    private function setup_values($id, MetaInterface $m)
+    protected function setup_values($id, MetaInterface $m)
     {
         foreach($this->fields as $key => $field)
         {
@@ -111,7 +111,7 @@ class MetaFields extends FieldBase implements FieldInterface
      * @param   string $s The section key
      * @return  string
      */
-    private function gen_id($s)
+    protected function gen_id($s)
     {
         return "{$this->opt}-{$s}";
     }
