@@ -24,6 +24,8 @@ class Project extends DI
 
     private $mb_fields = array();
 
+    private $meta_fields = array();
+
     private $admin_pages = array();
 
     private $meta_boxes = array();
@@ -39,7 +41,8 @@ class Project extends DI
 
         $this->meta_class = __NAMESPACE__ . '\\Meta\\Meta';
         $this->meta_box_class = __NAMESPACE__ . '\\MetaBox';
-        $this->mb_fields_class = __NAMESPACE__ . '\\Fields\\MetaFields';
+        $this->mb_fields_class = __NAMESPACE__ . '\\Fields\\MetaBoxFields';
+        $this->meta_fields_class = __NAMESPACE__ . '\\Fields\\MetaFields';
 
         $this->postmeta = $this->share(function($c) {
             $cls = $c->meta_class;
@@ -73,7 +76,7 @@ class Project extends DI
         return $this->settings[$name];
     }
 
-    public function mb_fields($name)
+    public function box_fields($name)
     {
         if(empty($this->mb_fields[$name]))
         {
@@ -82,6 +85,17 @@ class Project extends DI
         }
 
         return $this->mb_fields[$name];
+    }
+
+    public function meta_fields($name)
+    {
+        if(empty($this->meta_fields[$name]))
+        {
+            $cls = $this->meta_fields_class;
+            $this->meta_fields[$name] = new $cls("{$this->prefix}_{$name}");
+        }
+
+        return $this->meta_fields[$name];
     }
 
     public function create_page($key, FieldInterface $s, $opts=array())
