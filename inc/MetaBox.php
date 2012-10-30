@@ -1,6 +1,6 @@
 <?php
 /**
- * Meta box base class.  Helps automate the create of meta boxes for post types.
+ * Automates the creation of meta boxes.
  *
  * @since       1.0
  * @author      Christopher Davis <chris@pmg.co>
