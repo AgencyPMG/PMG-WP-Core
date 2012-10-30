@@ -65,7 +65,6 @@ abstract class TypeBase
      *
      * @since   1.0
      * @access  public
-     * @uses    register_post_type
      * @return  void
      */
     abstract public function register();
