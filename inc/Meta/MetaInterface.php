@@ -15,6 +15,8 @@ namespace PMG\Core\Meta;
 
 interface MetaInterface
 {
+    public function __construct($type, $prefix);
+
     public function get($id, $key, $default);
 
     public function save($id, $key, $val);
