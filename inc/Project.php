@@ -34,6 +34,8 @@ class Project extends DI
 
     private $term_boxes = array();
 
+    private $post_types = array();
+
     public function __construct($meta_prefix, $vals=array())
     {
         $this->prefix = $meta_prefix;
@@ -50,6 +52,7 @@ class Project extends DI
         $this->term_box_class = __NAMESPACE__ . '\\TermBox';
         $this->mb_fields_class = __NAMESPACE__ . '\\Fields\\MetaBoxFields';
         $this->meta_fields_class = __NAMESPACE__ . '\\Fields\\MetaFields';
+        $this->post_type_class = __NAMESPACE__ . '\\PostType';
 
         $this->postmeta = $this->share(function($c) {
             $cls = $c->meta_class;
@@ -165,5 +168,17 @@ class Project extends DI
             $this->get_prefix(), $f, $this->termmeta, $tax);
 
         return true;
+    }
+
+    public function create_type($type, $singular, $plural, $args=array())
+    {
+        if(!empty($this->post_types[$type]))
+            return $this->post_types[$type];
+
+        $cls = $this->post_type_class;
+
+        $this->post_types[$type] = new $cls($type, $singular, $plural, $args);
+
+        return $this->post_types[$type];
     }
 }
