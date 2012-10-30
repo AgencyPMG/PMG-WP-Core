@@ -30,6 +30,8 @@ class Project extends DI
 
     private $meta_boxes = array();
 
+    private $user_boxes = array();
+
     public function __construct($meta_prefix, $vals=array())
     {
         $this->prefix = $meta_prefix;
@@ -41,6 +43,7 @@ class Project extends DI
 
         $this->meta_class = __NAMESPACE__ . '\\Meta\\Meta';
         $this->meta_box_class = __NAMESPACE__ . '\\MetaBox';
+        $this->user_box_class = __NAMESPACE__ . '\\UserBox';
         $this->mb_fields_class = __NAMESPACE__ . '\\Fields\\MetaBoxFields';
         $this->meta_fields_class = __NAMESPACE__ . '\\Fields\\MetaFields';
 
@@ -98,7 +101,7 @@ class Project extends DI
         return $this->meta_fields[$name];
     }
 
-    public function create_page($key, FieldInterface $s, $opts=array())
+    public function admin_page($key, FieldInterface $s, $opts=array())
     {
         if(!empty($this->admin_pages[$key]))
             return false;
@@ -110,7 +113,7 @@ class Project extends DI
         return true;
     }
 
-    public  function create_box($key, FieldInterface $f, $opts=array(), $types=array())
+    public function meta_box($key, FieldInterface $f, $opts=array(), $types=array())
     {
         if(!empty($this->meta_boxes[$key]))
             return false;
@@ -119,6 +122,19 @@ class Project extends DI
 
         $this->meta_boxes[$key] = new $cls(
             $this->get_prefix(), $f, $this->postmeta, $opts, $types);
+
+        return true;
+    }
+
+    public function user_box($key, FieldInterface $f, $cap='edit_user')
+    {
+        if(!empty($this->user_boxes[$key]))
+            return false;
+
+        $cls = $this->user_box_class;
+
+        $this->user_boxes[$key] = new $cls(
+            $this->get_prefix(), $f, $this->usermeta, $cap);
 
         return true;
     }
