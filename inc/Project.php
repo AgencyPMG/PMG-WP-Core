@@ -32,6 +32,8 @@ class Project extends DI
 
     private $user_boxes = array();
 
+    private $term_boxes = array();
+
     public function __construct($meta_prefix, $vals=array())
     {
         $this->prefix = $meta_prefix;
@@ -42,8 +44,10 @@ class Project extends DI
         $this->admin_page_class = __NAMESPACE__ . '\\AdminPage';
 
         $this->meta_class = __NAMESPACE__ . '\\Meta\\Meta';
+        $this->term_meta_class = __NAMESPACE__ . '\\Meta\\TermMeta';
         $this->meta_box_class = __NAMESPACE__ . '\\MetaBox';
         $this->user_box_class = __NAMESPACE__ . '\\UserBox';
+        $this->term_box_class = __NAMESPACE__ . '\\TermBox';
         $this->mb_fields_class = __NAMESPACE__ . '\\Fields\\MetaBoxFields';
         $this->meta_fields_class = __NAMESPACE__ . '\\Fields\\MetaFields';
 
@@ -60,6 +64,17 @@ class Project extends DI
         $this->commentmeta = $this->share(function($c) {
             $cls = $c->meta_class;
             return new $cls('comment', $c->get_prefix());
+        });
+
+        $this->termmeta = $this->share(function($c) {
+            global $wpdb;
+
+            $cls = $c->term_meta_class;
+
+            if(isset($wpdb->termmeta))
+                $cls = $c->meta_class;
+
+            return new $cls('term', $c->get_prefix());
         });
     }
 
@@ -135,6 +150,19 @@ class Project extends DI
 
         $this->user_boxes[$key] = new $cls(
             $this->get_prefix(), $f, $this->usermeta, $cap);
+
+        return true;
+    }
+
+    public function term_box($key, FieldInterface $f, $tax=array())
+    {
+        if(!empty($this->term_boxes[$key]))
+            return false;
+
+        $cls = $this->term_box_class;
+
+        $this->term_boxes[$key] = new $cls(
+            $this->get_prefix(), $f, $this->termmeta, $tax);
 
         return true;
     }
