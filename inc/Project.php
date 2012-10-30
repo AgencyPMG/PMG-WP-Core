@@ -36,6 +36,8 @@ class Project extends DI
 
     private $post_types = array();
 
+    private $taxonomies = array();
+
     public function __construct($meta_prefix, $vals=array())
     {
         $this->prefix = $meta_prefix;
@@ -53,6 +55,7 @@ class Project extends DI
         $this->mb_fields_class = __NAMESPACE__ . '\\Fields\\MetaBoxFields';
         $this->meta_fields_class = __NAMESPACE__ . '\\Fields\\MetaFields';
         $this->post_type_class = __NAMESPACE__ . '\\PostType';
+        $this->taxonomy_class = __NAMESPACE__ . '\\Taxonomy';
 
         $this->postmeta = $this->share(function($c) {
             $cls = $c->meta_class;
@@ -180,5 +183,18 @@ class Project extends DI
         $this->post_types[$type] = new $cls($type, $singular, $plural, $args);
 
         return $this->post_types[$type];
+    }
+
+    public function create_taxonomy($type, $singular, $plural, $args=array(), $types=array('post'))
+    {
+        if(!empty($this->taxonomies[$type]))
+            return $this->taxonomies[$type];
+
+        $cls = $this->taxonomy_class;
+
+        $this->taxonomies[$type] = new $cls(
+            $type, $singular, $plural, $args, $types);
+
+        return $this->taxonomies[$type];
     }
 }
