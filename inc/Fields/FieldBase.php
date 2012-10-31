@@ -233,6 +233,7 @@ abstract class FieldBase
     {
         $options = isset($args['options']) ? $args['options'] : array();
         $is_multi = !empty($args['multi']);
+        $value = !$value && isset($args['default']) ? $args['default'] : $value;
         $name = $this->gen_name($key);
 
         if($is_multi)
@@ -278,6 +279,7 @@ abstract class FieldBase
     {
         $options = isset($args['options']) ? $args['options'] : array();
         $name = $this->gen_name($key);
+        $value = !$value && isset($args['default']) ? $args['default'] : $value;
 
         foreach($options as $val => $label)
         {
