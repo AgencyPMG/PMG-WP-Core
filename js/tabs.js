@@ -11,5 +11,7 @@ jQuery(document).ready(function($) {
         $('.pmgcore-tab.'+ g + '#' + id).show();
     });
 
-    $('.pmgcore-tab-nav li').first().find('a').trigger('click');
+    $('.pmgcore-tab-nav').each(function() {
+        $(this).find('li a').first().trigger('click');
+    });
 });
