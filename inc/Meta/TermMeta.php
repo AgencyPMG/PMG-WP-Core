@@ -36,6 +36,12 @@ class TermMeta implements MetaInterface
         add_action('shutdown', array($this, 'maybe_save'));
     }
 
+    public function get_key($key)
+    {
+        // nothign exciting here.
+        return $key;
+    }
+
     public function get($id, $key, $default='')
     {
         $m = $this->get_option();

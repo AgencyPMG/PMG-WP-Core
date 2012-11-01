@@ -25,7 +25,7 @@ class Meta implements MetaInterface
         $this->prefix = $prefix;
     }
 
-    protected function get_key($k)
+    public function get_key($k)
     {
         return "_{$this->prefix}_{$k}";
     }
