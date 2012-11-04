@@ -56,6 +56,7 @@ class Project extends DI
         $this->meta_fields_class = __NAMESPACE__ . '\\Fields\\MetaFields';
         $this->post_type_class = __NAMESPACE__ . '\\PostType';
         $this->taxonomy_class = __NAMESPACE__ . '\\Taxonomy';
+        $this->router_class = __NAMESPACe__ . '\\Router';
 
         $this->postmeta = $this->share(function($c) {
             $cls = $c->meta_class;
@@ -81,6 +82,11 @@ class Project extends DI
                 $cls = $c->meta_class;
 
             return new $cls('term', $c->get_prefix());
+        });
+
+        $this->router = $this->share(function($c) {
+            $cls = $c->router_class;
+            return new $cls($c->get_prefix());
         });
     }
 
