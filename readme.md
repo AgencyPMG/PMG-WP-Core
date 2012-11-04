@@ -241,7 +241,7 @@ The above doesn't gain you much more than a bit of convenience.  Use the
 `add_route` property to take some shortcuts.
 
 `add_route` only takes one argument: a route.  The route is just a string with
-several variable built in.  The variables, in this case, take the form of
+several variables built in.  The variables, in this case, take the form of
 `<(int|str):some_key>`.  `add_route` will translate those into a rewrite.
 
 So this:
@@ -264,7 +264,7 @@ Is a shortcut for this:
     $r->add_var(array('some_var', 'other_var'));
 
 The downside, of course, is less fined grained control.  If you need any sort of
-complete regex for your rewrite rules, it's better to just use strait regex and
+complex regex for your rewrite rules, it's better to just use strait regex and
 `add_rule`.
 
 ### "Catching" Query Variables.
