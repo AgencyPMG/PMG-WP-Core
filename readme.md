@@ -55,7 +55,7 @@ Adding settings fields/sections to already existing pages (General Options
 here).
 
     <?php
-    $f = pmgcore('my_project')->settings('my_setting', 'general');
+    $f = pmgcore('my_project')->setting('my_setting', 'general');
 
     $f->add_field('field_key, array(
         'label'     => __('Some Label', 'your-textdomain'),
@@ -70,7 +70,7 @@ here).
         'help'      => __('Section help text', 'your-textdomain'),
     ));
 
-    // put field sin the new section
+    // put fields in the new section
     $f->add_field('another_field_key', array(
         'label'     => __('Another Field', 'your-textdomain'),
         'type'      => 'textarea',
@@ -94,7 +94,7 @@ Or to create fields that use any of WordPress' various meta tables.
 
     // use $f as above
 
-Additional all fields have a `render` method which spits out the fields
+Additionally all fields have a `render` method which spits out the fields
 themselves.  This behaves differently depending the type of fields created. See
 [PMG\Core\Fields](https://github.com/AgencyPMG/PMG-WP-Core/tree/master/inc/Fields)
 for more information.
@@ -120,7 +120,7 @@ Then you can use the `admin_page` method.
 
 ### Adding Meta Boxes
 
-Create a box fields object like above
+Create a `MetaBoxFields` object like above.
 
     <?php
     $f = pmgcore('my_project')->box_fields('my_metabox');
