@@ -205,6 +205,83 @@ will use that.
 The limitation here is that the library deals with only single meta items. This
 may change in the future.
 
+## Adding Rewrites
+
+Use the `PMG\Core\Project::$router` property.
+
+### Adding a rewrite rule
+
+    <?php
+    pmgcore('my_project')->router->add_rule(
+        '^some-route/(\d+)/?$', // just regex
+        'index.php?some_var=$matches[1]',
+        'top' // this is option, defaults to top
+    );
+
+### Adding Rewrite Endpoints
+
+    <?php
+    pmgcore('my_project')->router->add_endpoint('ep', EP_ALL);
+
+The second argument is option, defaults to `EP_ALL`.  Learn more about
+endpoints
+[here](http://make.wordpress.org/plugins/2012/06/07/rewrite-endpoints-api/).
+
+### Adding Query Vars
+
+    <?php
+    pmgcore('my_project')->router->add_var('some_var');
+
+    // add more than one
+    pmgcore('your_project')->router->add_var(array('some_var', 'some_other_var'));
+
+### Using the Router
+
+The above doesn't gain you much more than a bit of convenience.  Use the
+`add_route` property to take some shortcuts.
+
+`add_route` only takes one argument: a route.  The route is just a string with
+several variable built in.  The variables, in this case, take the form of
+`<(int|str):some_key>`.  `add_route` will translate those into a rewrite.
+
+So this:
+
+    <?php
+    pmcore('my_project')->router->add_route('route/<int:some_var>/<str:other_var>');
+
+Is a shortcut for this:
+
+    <?php
+    $r = pmgcore('my_project')->router;
+
+    // add a rule
+    $r->add_rule(
+        '^route/(\d+)/([^/]+)/?$',
+        'index.php?some_var=$matches[1]&other_var=$matches[2]'
+    );
+
+    // add the query vars
+    $r->add_var(array('some_var', 'other_var'));
+
+The downside, of course, is less fined grained control.  If you need any sort of
+complete regex for your rewrite rules, it's better to just use strait regex and
+`add_rule`.
+
+### "Catching" Query Variables.
+
+Sometimes you want to "catch" query variables on the front end and do certain
+things if they hapen to be set.  `PMG\Core\Router::catch_var` let's you do that.
+
+It takes two arguments: a query var to search and the callable to call when it's
+found.  There's an optional third argument, `$exit`, which, if true, will cause
+the execution to stop after the callable has been called. `$exit` defaults to
+`true`.
+
+    <?php
+    pmgcore('my_project')->router->catch_var('some_var', function($v) {
+        echo $v; // $v is the query var that was caught
+    });
+
 ## Pluggable
 
 PMG Core uses dependency injection to prevent loading a bunch of crap you don't
