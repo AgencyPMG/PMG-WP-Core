@@ -58,7 +58,8 @@ class Cleaner extends PluginBase
         /**
          * Removes the recent comments widget
          */
-        remove_meta_box('dashboard_recent_comments', 'dashboard', 'normal');
+        if(!$this->comments_allowed())
+            remove_meta_box('dashboard_recent_comments', 'dashboard', 'normal');
 
         /**
          * Removes the incoming links widget.
