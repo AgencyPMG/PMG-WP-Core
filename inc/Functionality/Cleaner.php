@@ -19,34 +19,20 @@ class Cleaner extends PluginBase
 {
     public function _setup()
     {
-        add_action('plugins_loaded', array($this, 'plugins_loaded'), 10);
         add_action('wp_dashboard_setup', array($this, 'dashboard'));
         add_action('comment_moderation', array($this, 'comment_moderation'));
         add_action('admin_menu', array($this, 'admin_menu'));
+
         add_filter('pre_term_description', array($this, 'term_description'));
-    }
-
-    /**
-     * Hooked into `init`. Sets some options programmatically and removes
-     * other actions.
-     *
-     * @since       1.0
-     * @access      public
-     * @uses        remove_action
-     * @uses        add_filter
-     * @return      void
-     */
-    public function plugins_loaded()
-    {
-        remove_action('wp_head', 'wp_generator');
-        remove_filter('pre_term_description', 'wp_filter_kses');
-
         add_filter('pre_option_default_pingback_flag', '__return_zero');
         add_filter('pre_option_default_ping_status', '__return_zero');
         add_filter('pre_option_default_comment_status', '__return_zero');
         add_filter('pre_option_comment_moderation', '__return_true');
         add_filter('pre_option_enable_xmlrpc', '__return_zero');
         add_filter('pre_option_enable_app', '__return_zero');
+
+        remove_action('wp_head', 'wp_generator');
+        remove_filter('pre_term_description', 'wp_filter_kses');
     }
 
     /**
