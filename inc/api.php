@@ -28,3 +28,28 @@ function pmgcore($key)
 
     return $registry[$key];
 }
+
+/**
+ * Hooked into `plugins_loaded`. Fire an action signifying pmgcore is loaded.
+ *
+ * @since   1.1
+ * @uses    do_action
+ * @return  void
+ */
+function pmgcore_loaded()
+{
+    do_action('pmgcore_loaded');
+}
+
+/**
+ * Hooked into `after_setup_theme`.  Fire an action signifying pmgcore is
+ * loaded for themes
+ *
+ * @since   1.0
+ * @uses    do_action
+ * @return  void
+ */
+function pmgcore_loaded_theme()
+{
+    do_action('pmgcore_loaded_theme');
+}

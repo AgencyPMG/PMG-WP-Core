@@ -58,6 +58,9 @@ function loader($cls)
 
 require_once(dirname(__FILE__) . '/inc/api.php');
 
+add_action('plugins_loaded', 'pmgcore_loaded', 2);
+add_action('after_setup_theme', 'pmgcore_loaded_theme', 2);
+
 // A tiny bit of functionality
 Functionality\Cleaner::init();
 Functionality\Headers::init();
