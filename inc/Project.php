@@ -26,6 +26,8 @@ class Project extends DI
 
     private $meta_fields = array();
 
+    private $widget_fields = array();
+
     private $admin_pages = array();
 
     private $meta_boxes = array();
@@ -54,6 +56,7 @@ class Project extends DI
         $this->term_box_class = __NAMESPACE__ . '\\TermBox';
         $this->mb_fields_class = __NAMESPACE__ . '\\Fields\\MetaBoxFields';
         $this->meta_fields_class = __NAMESPACE__ . '\\Fields\\MetaFields';
+        $this->widget_fields_class = __NAMESPACE__ . '\\Fields\\WidgetFields';
         $this->post_type_class = __NAMESPACE__ . '\\PostType';
         $this->taxonomy_class = __NAMESPACE__ . '\\Taxonomy';
         $this->router_class = __NAMESPACE__ . '\\Router';
@@ -126,6 +129,17 @@ class Project extends DI
         }
 
         return $this->meta_fields[$name];
+    }
+
+    public function widget_fields($name)
+    {
+        if(empty($this->widget_fields[$name]))
+        {
+            $cls = $this->widget_fields_class;
+            $this->widget_fields[$name] = new $cls("{$this->prefix}_{$name}");
+        }
+
+        return $this->widget_fields[$name];
     }
 
     public function admin_page($key, FieldInterface $s, $opts=array())
