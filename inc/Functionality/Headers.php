@@ -4,7 +4,7 @@
  *
  * @since       1.0
  * @author      Christopher Davis <chris@pmg.co>
- * @license     GPLv2
+ * @license     http://opensource.org/licenses/MIT MIT
  * @copyright   Performance Media Group 2012
  * @package     PMGCore
  */
@@ -36,7 +36,7 @@ class Headers extends PluginBase
     }
 
     /**
-     * Hooked into `wp_headers`.  Adds X-Frame-Options, X-Powered-By, and
+     * Hooked into `wp_headers`.  Adds X-Frame-Options, and
      * X-UA-Compatible headers. and removes X-Pingback
      *
      * @since   1.0
@@ -46,7 +46,6 @@ class Headers extends PluginBase
     public function wp_headers($h)
     {
         $h['X-Frame-Options'] = 'SAMEORIGIN';
-        $h['X-Powered-By'] = 'WordPress + PMG';
         $h['X-UA-Compatible'] = 'IE=edge,chrome=1';
 
         if(isset($h['X-Pingback']))
