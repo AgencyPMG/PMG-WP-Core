@@ -75,7 +75,7 @@ class TermBox
 
         $this->proj = $proj;
         $this->taxonomies = $tax;
-        add_action('init', array($this, '_setup'), 100);
+        add_action('admin_init', array($this, '_setup'), 100);
     }
 
     /**
