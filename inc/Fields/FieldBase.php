@@ -120,10 +120,7 @@ abstract class FieldBase
             'help'      => '',
         ));
 
-        $this->sections[$key] = array(
-            'title' => $args['title'],
-            'help'  => $args['help'],
-        );
+        $this->sections[$key] = $args;
     }
 
     /**
