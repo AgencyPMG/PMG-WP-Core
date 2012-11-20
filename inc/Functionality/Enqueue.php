@@ -17,7 +17,7 @@ use PMG\Core\PluginBase;
 
 class Enqueue extends PluginBase
 {
-    const VER = 1;
+    const VER = 2;
 
     public function _setup()
     {
@@ -43,6 +43,14 @@ class Enqueue extends PluginBase
             PMGCORE_URL . 'js/tabs.js',
             array('jquery'),
             self::VER
+        );
+
+        wp_register_script(
+            'pmgcore-media',
+            PMGCORE_URL . 'js/media.js',
+            array('jquery'),
+            self::VER,
+            true
         );
     }
 
