@@ -64,8 +64,7 @@ jQuery(document).ready(function($) {
 
                         $p.find('.pmgcore-attachment-container')
                           .html('')
-                          .append(e)
-                          .wrapInner('<p />');
+                          .append(e);
                     }
                 }
             });
