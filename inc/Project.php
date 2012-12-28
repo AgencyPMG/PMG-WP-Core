@@ -103,7 +103,14 @@ class Project extends DI
         if(empty($this->settings[$name]))
         {
             $cls = $this->settings_factory_class;
-            $this->settings[$name] = new $cls("{$this->prefix}_{$name}", $page);
+
+            $pf = '';
+            if($this->prefix)
+            {
+                $pf = $this->prefix . '_';
+            }
+
+            $this->settings[$name] = new $cls("{$pf}{$name}", $page);
         }
 
         return $this->settings[$name];
