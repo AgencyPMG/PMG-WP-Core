@@ -26,7 +26,7 @@ class Cleaner extends PluginBase
         add_filter('pre_term_description', array($this, 'term_description'));
         add_filter('pre_option_default_pingback_flag', '__return_zero');
         add_filter('pre_option_default_ping_status', '__return_zero');
-        add_filter('pre_option_default_comment_status', '__return_zero');
+        add_filter('pre_option_default_comment_status', array($this, 'default_comment'));
         add_filter('pre_option_comment_moderation', '__return_true');
         add_filter('pre_option_enable_xmlrpc', '__return_zero');
         add_filter('pre_option_enable_app', '__return_zero');
@@ -144,6 +144,22 @@ class Cleaner extends PluginBase
     {
         return current_user_can('unfiltered_html') ?
             $content : wp_filter_kses($content);
+    }
+
+    /**
+     * Alternate callback for default comment status.
+     *
+     * @since   1.0
+     * @access  public
+     * @return  mixed
+     */
+    public function default_comment($res)
+    {
+        if ($this->comments_allowed()) {
+            return $res;
+        }
+
+        return 0;
     }
 
     /**
