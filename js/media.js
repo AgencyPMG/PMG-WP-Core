@@ -1,76 +1,60 @@
+// props: http://mikejolley.com/2012/12/using-the-new-wordpress-3-5-media-uploader-in-plugins/
 jQuery(document).ready(function($) {
-    var Attachment = wp.media.model.Attachment;
+    var file_frame;
 
     $('#wpbody').on('click', '.pmgcore-cue-media', function(e) {
-        var mediaID = false, $t = $(this), attachment, options, $target, $p, frame;
 
         e.preventDefault();
 
-        $p = $t.parents('.pmgcore-media-wrap');
-        // why can't I just select by ID here?
-        $target = $p.find('input[type="hidden"]');
+        var parent = $(this).parents('.pmgcore-media-wrap'),
+            target = $(parent).find('input[type="hidden"]'),
+            media_id = $(target).val();
 
-        mediaID = $target.val();
-
-        if(!mediaID || -1 == mediaID || '0' == mediaID) {
-            mediaID = false;
+        if (file_frame) {
+            file_frame.open();
+            return;
         }
 
-        attachment = Attachment.get(mediaID);
-        attachment.fetch();
-
-        options = {
-            title: $t.data('title'),
-            multiple: false
-        };
-
-        if(mediaID) {
-            options.selection = [attachment];
-        }
-
-        frame = wp.media(options);
-
-        frame.toolbar.on('activate:select', function() {
-            frame.toolbar.view().set({
-                select: {
-                    style: 'primary',
-                    text: $t.data('update'),
-                    click: function() {
-                        var m = frame.state().get('selection').first();
-                            type = m.get('type'),
-                            e;
-
-                        frame.close();
-
-                        $target.val(m.get('id'));
-
-
-
-                        if('image' == type) { 
-                            var sizes = m.get('sizes'), size;
-
-                            if(sizes) {
-                                size = sizes['post-thumbnail'] || sizes.medium;
-                            }
-
-                            size = size || m.toJSON();
-
-                            e = $('<img />', {src: size.url, width: '150'});
-                        } else {
-                            e = $('<input />', {
-                                type: 'text', disabled: 'disabled',
-                                class: 'widefat', value: m.get('url')});
-                        }
-
-                        $p.find('.pmgcore-attachment-container')
-                          .html('')
-                          .append(e);
-                    }
-                }
-            });
+        file_frame = wp.media.frames.file_frame = wp.media({
+            title:  $(this).data('title'),
+            button: {
+                text: $(this).data('title')
+            },
+            multiple: false,
+            selection: [media_id]
         });
+
+        file_frame.on('select', function() {
+            var att = file_frame.state().get('selection').first(),
+                type = att.get('type'),
+                sizes,
+                size,
+                e;
+
+            $(target).val(att.get('id'));
+
+            if ('image' == type) {
+                sizes = att.get('sizes');
+
+                size = sizes.thumbnail || sizes.medium;
+                e = $('<img />', {src: size.url, width: '150'});
+            } else {
+                e = $('<input />', {
+                    type: 'text',
+                    disabled: 'disabled',
+                    class: 'widefat',
+                    value: att.get('url')
+                });
+            }
+
+            $(parent).find('.pmgcore-attachment-container').html('').append(e);
+
+            file_frame.close();
+        });
+
+        file_frame.open();
     }).on('click', '.pmgcore-remove-media', function(e) {
-        var $t = $(this), $p = $t.parents('.pmgcore-media-wrap');
+        var $p = $(this).parents('.pmgcore-media-wrap');
 
         e.preventDefault();
 
