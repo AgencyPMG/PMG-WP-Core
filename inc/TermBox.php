@@ -4,7 +4,7 @@
  *
  * @since       1.0
  * @author      Christopher Davis <chris@pmg.co>
- * @license     GPLv2
+ * @license     http://opensource.org/licenses/MIT MIT
  * @copyright   Performance Media Group 2012
  * @package     PMGCore
  */
@@ -75,7 +75,7 @@ class TermBox
 
         $this->proj = $proj;
         $this->taxonomies = $tax;
-        add_action('init', array($this, '_setup'), 100);
+        add_action('admin_init', array($this, '_setup'), 100);
     }
 
     /**

@@ -4,7 +4,7 @@
  *
  * @since       1.0
  * @author      Christopher Davis <chris@pmg.co>
- * @license     GPLv2
+ * @license     http://opensource.org/licenses/MIT MIT
  * @copyright   Performance Media Group 2012
  * @package     PMGCore
  */
@@ -23,11 +23,15 @@ class AdminPage
 
     private $icon = 'tools';
 
+    private $menu_icon = '';
+
     private $slug;
 
     private $title;
 
     private $menu_name;
+
+    private $position;
 
     private $cap = 'manage_options';
 
@@ -41,6 +45,8 @@ class AdminPage
         $this->title = !empty($opts['title']) ? $opts['title'] : __('Options', 'pmgcore');
         $this->menu_name = !empty($opts['menu_name']) ? $opts['menu_name'] : __('Options', 'pmgcore');
         $this->parent = !empty($opts['parent']) ? $opts['parent'] : null;
+        $this->position = !empty($opts['position']) ? $opts['position'] : null;
+        $this->menu_icon = !empty($opts['menu_icon']) ? $opts['menu_icon'] : '';
         $this->icon = !empty($opts['icon']) ? $opts['icon'] : 'tools';
         $this->cap = !empty($opts['cap']) ? $opts['cap'] : 'manage_options';
 
@@ -58,7 +64,9 @@ class AdminPage
                 $this->menu_name,
                 $this->cap,
                 $this->slug,
-                array($this, 'page_cb')
+                array($this, 'page_cb'),
+                $this->menu_icon,
+                $this->position
             );
         }
         else

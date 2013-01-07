@@ -5,7 +5,7 @@
  *
  * @since       1.0
  * @author      Christopher Davis <chris@pmg.co>
- * @license     GPLv2
+ * @license     http://opensource.org/licenses/MIT MIT
  * @copyright   Performance Media Group 2012
  * @package     PMGCore
  */
@@ -120,10 +120,7 @@ abstract class FieldBase
             'help'      => '',
         ));
 
-        $this->sections[$key] = array(
-            'title' => $args['title'],
-            'help'  => $args['help'],
-        );
+        $this->sections[$key] = $args;
     }
 
     /**
@@ -145,6 +142,10 @@ abstract class FieldBase
                 if('checkbox' == $field['type'])
                 {
                     $clean[$key] = static::CHECK_ON;
+                }
+                elseif('attachment' == $field['type'])
+                {
+                    $clean[$key] = absint($dirty[$key]);
                 }
                 elseif('editor' == $field['type'])
                 {
@@ -216,6 +217,72 @@ abstract class FieldBase
     protected function checkbox($value, $key, $cls=null, $args)
     {
         $this->input('checkbox', $value, $key, '', $args);
+    }
+
+    protected function attachment($value, $key, $cls, $args)
+    {
+        $title = !empty($args['title']) ? $args['title'] : __('Set Attachment', 'pmgcore');
+        $btn_txt = !empty($args['button_text']) ? $args['button_text'] : $title;
+        $update_txt = !empty($args['update_text']) ? $args['update_text'] : $title;
+        $remove_txt = !empty($args['remove_text']) ? $args['remove_text'] : __('Remove Attachment', 'pmgcore');
+        $name = $this->gen_name($key);
+        'widefat' == $cls && $cls = ''; // no widefat, thanks.
+
+        // wrap things in a container.
+        echo '<div class="pmgcore-media-wrap">';
+
+        echo '<p>';
+        // cue button
+        printf(
+            '<a href="#" class="button pmgcore-cue-media %1$s" '.
+            'data-target="%2$s" data-container="%2$s-container" '.
+            'data-title="%3$s" data-update="%4$s">%5$s</a>',
+            esc_attr($cls),
+            esc_attr($name),
+            esc_attr($title),
+            esc_attr($update_txt),
+            esc_html($btn_txt)
+        );
+
+        // remove button
+        printf(
+            ' <a href="#" class="button pmgcore-remove-media %1$s" '.
+            'data-target="%2$s">%3$s</a>',
+            esc_attr($cls),
+            esc_attr($name),
+            esc_attr($remove_txt)
+        );
+        echo '</p>';
+
+        // container to display the media
+        printf('<div id="%1$s-container" class="pmgcore-attachment-container">', esc_attr($name));
+        if($value)
+        {
+            if($img = wp_get_attachment_image_src($value))
+            {
+                printf(
+                    '<img src="%s" width="%s" />',
+                    esc_url($img[0]),
+                    esc_attr($img[1])
+                );
+            }
+            elseif($url = wp_get_attachment_url($value))
+            {
+                printf(
+                    '<input type="text" class="widefat" disabled="disabled" value="%s" />',
+                    esc_url($url)
+                );
+            }
+        }
+        echo '</div>';
+
+        // hidden input container for the the attachment ID.
+        $this->input('hidden', $value, $key, 'pmgcore-attachment-bind');
+
+        echo '</div>';
+
+        wp_enqueue_media();
+        wp_enqueue_script('pmgcore-media');
     }
 
     protected function textarea($value, $key, $cls='widefat', $args)

@@ -5,7 +5,7 @@
  *
  * @since       1.0
  * @author      Christopher Davis <chris@pmg.co>
- * @license     GPLv2
+ * @license     http://opensource.org/licenses/MIT MIT
  * @copyright   Performance Media Group 2012
  * @package     PMGCore
  */
@@ -103,7 +103,14 @@ class Project extends DI
         if(empty($this->settings[$name]))
         {
             $cls = $this->settings_factory_class;
-            $this->settings[$name] = new $cls("{$this->prefix}_{$name}", $page);
+
+            $pf = '';
+            if($this->prefix)
+            {
+                $pf = $this->prefix . '_';
+            }
+
+            $this->settings[$name] = new $cls("{$pf}{$name}", $page);
         }
 
         return $this->settings[$name];
