@@ -281,7 +281,12 @@ abstract class FieldBase
 
         echo '</div>';
 
-        wp_enqueue_media();
+        // this is a hack that was fix in WP 3.5.1, but we'll keep this
+        // here to make things play nice with WP 3.5
+        if (!did_action('wp_enqueue_media')) {
+            wp_enqueue_media();
+        }
+
         wp_enqueue_script('pmgcore-media');
     }
 

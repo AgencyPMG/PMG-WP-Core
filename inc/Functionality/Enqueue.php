@@ -45,6 +45,8 @@ class Enqueue extends PluginBase
             self::VER
         );
 
+        // this depends on the `media-views` and `media-editor` scripts as
+        // well, but those should be added with `wp_enqueue_media`
         wp_register_script(
             'pmgcore-media',
             PMGCORE_URL . 'js/media.js',
