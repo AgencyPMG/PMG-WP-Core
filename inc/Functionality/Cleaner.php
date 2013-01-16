@@ -28,7 +28,6 @@ class Cleaner extends PluginBase
         add_filter('pre_option_default_ping_status', '__return_zero');
         add_filter('pre_option_default_comment_status', array($this, 'default_comment'));
         add_filter('pre_option_comment_moderation', '__return_true');
-        add_filter('pre_option_enable_xmlrpc', '__return_zero');
         add_filter('pre_option_enable_app', '__return_zero');
 
         remove_action('wp_head', 'wp_generator');
