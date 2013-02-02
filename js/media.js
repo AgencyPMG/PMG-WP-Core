@@ -42,7 +42,15 @@ jQuery(document).ready(function($) {
                 sizes = att.get('sizes');
 
                 size = sizes.thumbnail || sizes.medium;
-                e = $('<img />', {src: size.url, width: '150'});
+
+                if (!size) {
+                    size = sizes.full; // there was only a single size.
+                }
+
+                e = $('<img />', {
+                    src: size.url,
+                    width: size.width > 150 ? '150' : size.width
+                });
             } else {
                 e = $('<input />', {
                     type: 'text',
