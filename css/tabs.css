@@ -52,6 +52,7 @@
 .pmgcore-tab {
   background: white;
   border: 1px solid #dfdfdf;
+  padding: 0 1em;
   -webkit-border-radius: 3px;
      -moz-border-radius: 3px;
           border-radius: 3px;
