@@ -370,14 +370,13 @@ abstract class FieldBase
 
     protected function editor($value, $key, $cls, $args)
     {
-        $name = $this->gen_name($key);
-
         $e_args = array();
-
-        if(isset($args['rows']))
+        $e_args['textarea_name'] = $this->gen_name($key);
+        if (isset($args['rows'])) {
             $e_args['textarea_rows'] = $args['rows'];
+        }
 
-        wp_editor($value, $name, $e_args);
+        wp_editor($value, $this->gen_id($key), $e_args);
     }
 
     /**
@@ -407,5 +406,14 @@ abstract class FieldBase
     protected function gen_name($key)
     {
         return is_null($this->opt) ? $key : sprintf('%s[%s]', $this->opt, $key);
+    }
+
+    protected function gen_id($key)
+    {
+        return null === $this->opt ? $key : sprintf(
+            '%s_%s',
+            $this->opt,
+            preg_replace('/[^a-zA-Z0-9]/', '_', $key)
+        );
     }
 } // end FieldFactory
